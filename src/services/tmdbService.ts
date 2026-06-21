@@ -124,6 +124,18 @@ export class TmdbService {
       link: region.link ?? '',
     };
   }
+
+    /** Series en tendencia hoy */
+  static async getTrendingDay(page: number = 1): Promise<Series[]> {
+    const data = await this.fetchData(ENDPOINTS.TRENDING_TV_DAY, { page });
+    return data.results.map((item: any) => new Series(item));
+  }
+
+  /** Series en tendencia esta semana */
+  static async getTrendingWeek(page: number = 1): Promise<Series[]> {
+    const data = await this.fetchData(ENDPOINTS.TRENDING_TV_WEEK, { page });
+    return data.results.map((item: any) => new Series(item));
+  }
 }
 
 /**

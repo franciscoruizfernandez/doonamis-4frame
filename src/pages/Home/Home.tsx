@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaFire, FaStar, FaTv, FaClock } from 'react-icons/fa';
+import { FaFire, FaStar, FaTv, FaClock, FaChartLine } from 'react-icons/fa';
 import { Series } from '../../models/Series';
 import { TmdbService } from '../../services/tmdbService';
 import SeriesCard from '../../components/SeriesCard/SeriesCard';
@@ -12,13 +12,14 @@ import styles from './Home.module.scss';
 /**
  * Identificadores únicos de cada tab/categoría.
  */
-type CategoryId = 'popular' | 'top_rated' | 'on_the_air' | 'airing_today';
+type CategoryId = 'trending_week' | 'popular' | 'top_rated' | 'on_the_air' | 'airing_today';
 
 /**
  * Mapeo de cada categoría a su función del servicio.
  * Centralizado para evitar repetición y facilitar añadir nuevas.
  */
 const CATEGORY_FETCHERS: Record<CategoryId, (page: number) => Promise<Series[]>> = {
+  trending_week: TmdbService.getTrendingWeek.bind(TmdbService),
   popular: TmdbService.getPopularSeries.bind(TmdbService),
   top_rated: TmdbService.getTopRatedSeries.bind(TmdbService),
   on_the_air: TmdbService.getOnTheAirSeries.bind(TmdbService),
@@ -29,6 +30,7 @@ const CATEGORY_FETCHERS: Record<CategoryId, (page: number) => Promise<Series[]>>
  * Configuración de los tabs visibles.
  */
 const TABS: TabItem[] = [
+  { id: 'trending_week', label: 'Tendencias', icon: <FaChartLine /> },
   { id: 'popular', label: 'Populares', icon: <FaFire /> },
   { id: 'top_rated', label: 'Mejor valoradas', icon: <FaStar /> },
   { id: 'on_the_air', label: 'En emisión', icon: <FaTv /> },
@@ -42,7 +44,7 @@ const TABS: TabItem[] = [
  * y paginación tipo "cargar más".
  */
 const Home = () => {
-  const [activeTab, setActiveTab] = useState<CategoryId>('popular');
+  const [activeTab, setActiveTab] = useState<CategoryId>('trending_week');
   const [series, setSeries] = useState<Series[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
