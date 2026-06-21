@@ -11,6 +11,7 @@ export const ROUTES = {
   FAVORITES: '/favorites',
   EXPLORE: '/explore',
   NOT_FOUND: '*',
+  PERSON: '/person/:id',
 } as const;
 
 /**
@@ -19,4 +20,5 @@ export const ROUTES = {
 export const buildRoute = {
   seriesDetail: (id: number | string) => `/series/${id}`,
   search: (query: string) => `/search?q=${encodeURIComponent(query)}`,
+  person: (id: number | string) => `/person/${id}`,
 };

@@ -1,5 +1,7 @@
 import { CastMember } from '../../models/CastMember';
 import styles from './CastCard.module.scss';
+import { Link } from 'react-router-dom';
+import { buildRoute } from '../../constants/routes';
 
 interface CastCardProps {
   member: CastMember;
@@ -12,7 +14,7 @@ interface CastCardProps {
  */
 const CastCard = ({ member }: CastCardProps) => {
   return (
-    <div className={styles.castCard}>
+    <Link to={buildRoute.person(member.id)} className={styles.castCard}>
       <div className={styles.castCard__imageWrapper}>
         <img
           src={member.profileUrl}
@@ -23,7 +25,7 @@ const CastCard = ({ member }: CastCardProps) => {
       </div>
       <h4 className={styles.castCard__name}>{member.name}</h4>
       <p className={styles.castCard__character}>{member.character}</p>
-    </div>
+    </Link>
   );
 };
 

@@ -1,0 +1,164 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.person {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+
+  &__backBtn {
+    position: absolute;
+    top: $spacing-lg;
+    left: $spacing-lg;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    transition: background-color $transition-fast, transform $transition-fast;
+
+    &:hover {
+      background-color: $color-accent;
+      transform: translateX(-3px);
+    }
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 350px minmax(0, 1fr);
+    gap: 0;
+    max-width: 1600px;
+    margin: 0 auto;
+
+    @include respond-to(lg) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Sidebar
+  &__sidebar {
+    background-color: $color-bg-primary;
+    padding: $spacing-xxl $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-lg;
+  }
+
+  &__photo {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  &__facts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__fact {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+
+  &__factIcon {
+    color: $color-accent;
+    font-size: $font-size-lg;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  &__factLabel {
+    display: block;
+    font-size: $font-size-xs;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: $color-text-secondary;
+    margin-bottom: 2px;
+  }
+
+  &__factValue {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-text-primary;
+  }
+
+  // Main
+  &__main {
+    background-color: $color-bg-secondary;
+    padding: $spacing-xxl;
+    min-width: 0;
+    overflow: hidden;
+
+    @include respond-to(md) {
+      padding: $spacing-md;
+    }
+  }
+
+  &__name {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: $spacing-xl;
+
+    @include respond-to(md) {
+      font-size: 2rem;
+    }
+  }
+
+  &__sectionTitle {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    margin-bottom: $spacing-md;
+    color: $color-text-primary;
+  }
+
+  &__bioSection {
+    margin-bottom: $spacing-xxl;
+  }
+
+  &__bio {
+    font-size: $font-size-base;
+    line-height: 1.8;
+    color: $color-text-secondary;
+    white-space: pre-line;
+  }
+
+  &__bioToggle {
+    margin-top: $spacing-sm;
+    color: $color-accent;
+    font-weight: 600;
+    font-size: $font-size-sm;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-accent-hover;
+      text-decoration: underline;
+    }
+  }
+
+  &__filmography {
+    margin-top: $spacing-xxl;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: $spacing-lg;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: $spacing-md;
+    }
+  }
+}

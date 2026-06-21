@@ -10,6 +10,7 @@ import Favorites from './pages/Favorites/Favorites';
 import NotFound from './pages/NotFound/NotFound';
 import Explore from './pages/Explore/Explore';
 import { ROUTES } from './constants/routes';
+import PersonDetail from './pages/PersonDetail/PersonDetail';
 
 /**
  * Componente raíz de la aplicación.
@@ -34,6 +35,7 @@ function App() {
               <Route path={ROUTES.EXPLORE} element={<Explore />} />
               <Route path={ROUTES.FAVORITES} element={<Favorites />} />
               <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+              <Route path={ROUTES.PERSON} element={<PersonDetail />} />
             </Routes>
           </main>
 

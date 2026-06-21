@@ -38,4 +38,6 @@ export const ENDPOINTS = {
   GENRE_TV_LIST: '/genre/tv/list',
   TV_SEASON: (id: number, season: number) => `/tv/${id}/season/${season}`,
   TV_IMAGES: (id: number) => `/tv/${id}/images`,
+  PERSON_DETAIL: (id: number) => `/person/${id}`,
+  PERSON_TV_CREDITS: (id: number) => `/person/${id}/tv_credits`,
 } as const;

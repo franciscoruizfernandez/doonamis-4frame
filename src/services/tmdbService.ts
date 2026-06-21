@@ -10,6 +10,7 @@ import type { DiscoverResponse } from '../models/Discover';
 import { Genre } from '../models/Genre';
 import { Episode } from '../models/Episode';
 import { SeriesImage } from '../models/SeriesImage';
+import { Person } from '../models/Person';
 
 /**
  * Servicio TMDB
@@ -198,6 +199,20 @@ export class TmdbService {
   static async getSeasonEpisodes(seriesId: number, seasonNumber: number): Promise<Episode[]> {
     const data = await this.fetchData(ENDPOINTS.TV_SEASON(seriesId, seasonNumber));
     return (data.episodes ?? []).map((ep: any) => new Episode(ep));
+  }
+
+  /** Obtiene los datos de una persona (actor, director, etc.) */
+  static async getPersonDetail(id: number): Promise<Person> {
+    const data = await this.fetchData(ENDPOINTS.PERSON_DETAIL(id));
+    return new Person(data);
+  }
+
+  /** Obtiene las series en las que ha participado una persona */
+  static async getPersonTvCredits(id: number): Promise<Series[]> {
+    const data = await this.fetchData(ENDPOINTS.PERSON_TV_CREDITS(id));
+    return (data.cast ?? [])
+      .map((item: any) => new Series(item))
+      .sort((a: Series, b: Series) => b.popularity - a.popularity);
   }
 }
 
