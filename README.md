@@ -81,6 +81,7 @@ El proyecto final cubre alrededor de 19 endpoints distintos de la API de TMDB y 
 | **react-icons** | Iconografía |
 
 ## Estructura del proyecto
+```text
   src/
   ├── components/ # Componentes reutilizables
   │ ├── CastCard/
@@ -117,7 +118,7 @@ El proyecto final cubre alrededor de 19 endpoints distintos de la API de TMDB y 
   ├── services/ # Servicios de API (TmdbService)
   ├── styles/ # Estilos globales, variables y mixins
   └── App.tsx
-
+```
 
 ## Instalación y ejecución
 
