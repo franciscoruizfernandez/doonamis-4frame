@@ -18,6 +18,8 @@ import WatchProviders from '../../components/WatchProviders/WatchProviders';
 import { Review } from '../../models/Review';
 import ReviewsSection from '../../components/ReviewsSection/ReviewsSection';
 import EpisodesList from '../../components/EpisodesList/EpisodesList';
+import { SeriesImage } from '../../models/SeriesImage';
+import ImageGallery from '../../components/ImageGallery/ImageGallery';
 
 /**
  * Página SeriesDetail
@@ -67,6 +69,11 @@ const SeriesDetail = () => {
 
   const { data: reviews } = useFetch<Review[]>(
     () => TmdbService.getSeriesReviews(seriesId),
+    [seriesId]
+  );
+
+  const { data: images } = useFetch<{ backdrops: SeriesImage[], posters: SeriesImage[] }>(
+    () => TmdbService.getSeriesImages(seriesId),
     [seriesId]
   );
 
@@ -215,6 +222,13 @@ const SeriesDetail = () => {
 
           {reviews && (
             <ReviewsSection reviews={reviews} />
+          )}
+
+          {images && (
+            <ImageGallery 
+              backdrops={images.backdrops} 
+              posters={images.posters} 
+            />
           )}
 
           {similar && similar.length > 0 && (

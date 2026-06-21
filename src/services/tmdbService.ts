@@ -9,6 +9,7 @@ import { DiscoverFilters } from '../models/Discover';
 import type { DiscoverResponse } from '../models/Discover';
 import { Genre } from '../models/Genre';
 import { Episode } from '../models/Episode';
+import { SeriesImage } from '../models/SeriesImage';
 
 /**
  * Servicio TMDB
@@ -154,6 +155,19 @@ export class TmdbService {
   static async getTvGenres(): Promise<Genre[]> {
     const data = await this.fetchData(ENDPOINTS.GENRE_TV_LIST);
     return (data.genres ?? []).map((g: any) => new Genre(g));
+  }
+
+  /**
+  * Obtiene las imágenes (backdrops y posters) de una serie.
+  * No filtra por idioma para obtener más resultados.
+  */
+  static async getSeriesImages(id: number): Promise<{ backdrops: SeriesImage[], posters: SeriesImage[] }> {
+    // Para imágenes pedimos sin filtro de idioma
+    const data = await this.fetchData(ENDPOINTS.TV_IMAGES(id), { include_image_language: 'en,null' });
+    return {
+      backdrops: (data.backdrops ?? []).map((img: any) => new SeriesImage(img)),
+      posters: (data.posters ?? []).map((img: any) => new SeriesImage(img)),
+    };
   }
 
   /**
