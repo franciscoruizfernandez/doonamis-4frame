@@ -8,6 +8,7 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import Tabs from '../../components/Tabs/Tabs';
 import type { TabItem } from '../../components/Tabs/Tabs';
 import styles from './Home.module.scss';
+import HeroBanner from '../../components/HeroBanner/HeroBanner';
 
 /**
  * Identificadores únicos de cada tab/categoría.
@@ -101,15 +102,10 @@ const Home = () => {
   return (
     <div className={styles.home}>
       
-      {/* Hero */}
-      <section className={styles.home__hero}>
-        <div className={styles.home__heroContent}>
-          <h1 className={styles.home__title}>Series de TV</h1>
-          <p className={styles.home__subtitle}>
-            Descubre las mejores series de televisión del momento
-          </p>
-        </div>
-      </section>
+      {/* Hero dinámico con la primera serie de la categoría activa */}
+      {!loading && series.length > 0 && (
+        <HeroBanner series={series[0]} />
+      )}
 
       {/* Tabs */}
       <section className={styles.home__content}>
