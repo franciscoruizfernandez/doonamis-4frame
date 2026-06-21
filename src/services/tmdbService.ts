@@ -2,6 +2,8 @@ import { Series } from '../models/Series';
 import { SeriesDetail } from '../models/SeriesDetail';
 import { API_CONFIG, ENDPOINTS } from '../constants/api';
 import { CastMember } from '../models/CastMember';
+import type { WatchProvidersGroup } from '../models/WatchProvider';
+import { WatchProvider } from '../models/WatchProvider';
 
 /**
  * Servicio TMDB
@@ -99,6 +101,28 @@ export class TmdbService {
     return (data.cast ?? [])
       .map((item: any) => new CastMember(item))
       .sort((a: CastMember, b: CastMember) => a.order - b.order);
+  }
+
+    /**
+   * Obtiene las plataformas donde se puede ver una serie.
+   * Devuelve los providers de España por defecto, con fallback a US.
+   */
+  static async getWatchProviders(id: number): Promise<WatchProvidersGroup | null> {
+    const data = await this.fetchData(ENDPOINTS.TV_WATCH_PROVIDERS(id));
+    const results = data.results ?? {};
+    
+    // Preferimos España, si no hay datos usamos US
+    const region = results.ES ?? results.US;
+    if (!region) return null;
+
+    return {
+      flatrate: (region.flatrate ?? [])
+        .map((p: any) => new WatchProvider(p))
+        .sort((a: WatchProvider, b: WatchProvider) => a.displayPriority - b.displayPriority),
+      rent: (region.rent ?? []).map((p: any) => new WatchProvider(p)),
+      buy: (region.buy ?? []).map((p: any) => new WatchProvider(p)),
+      link: region.link ?? '',
+    };
   }
 }
 

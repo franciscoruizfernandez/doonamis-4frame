@@ -13,6 +13,8 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import styles from './SeriesDetail.module.scss';
 import { CastMember } from '../../models/CastMember';
 import CastCarousel from '../../components/CastCarousel/CastCarousel';
+import type { WatchProvidersGroup } from '../../models/WatchProvider';
+import WatchProviders from '../../components/WatchProviders/WatchProviders';
 
 /**
  * Página SeriesDetail
@@ -52,6 +54,11 @@ const SeriesDetail = () => {
 
   const { data: cast } = useFetch<CastMember[]>(
     () => TmdbService.getSeriesCast(seriesId),
+    [seriesId]
+  );
+
+  const { data: watchProviders } = useFetch<WatchProvidersGroup | null>(
+    () => TmdbService.getWatchProviders(seriesId),
     [seriesId]
   );
 
@@ -177,6 +184,10 @@ const SeriesDetail = () => {
                 </span>
               ))}
             </div>
+          )}
+
+          {watchProviders && (
+            <WatchProviders providers={watchProviders} />
           )}
 
           {series.tagline && (
