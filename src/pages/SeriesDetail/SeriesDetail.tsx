@@ -17,7 +17,7 @@ import type { WatchProvidersGroup } from '../../models/WatchProvider';
 import WatchProviders from '../../components/WatchProviders/WatchProviders';
 import { Review } from '../../models/Review';
 import ReviewsSection from '../../components/ReviewsSection/ReviewsSection';
-
+import EpisodesList from '../../components/EpisodesList/EpisodesList';
 
 /**
  * Página SeriesDetail
@@ -200,6 +200,13 @@ const SeriesDetail = () => {
 
           {series.tagline && (
             <p className={styles.detail__tagline}>"{series.tagline}"</p>
+          )}
+
+          {series.seasons.length > 0 && (
+            <EpisodesList 
+              seriesId={seriesId} 
+              seasons={series.seasons} 
+            />
           )}
 
           {cast && cast.length > 0 && (

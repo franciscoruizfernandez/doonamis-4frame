@@ -2,6 +2,27 @@ import { Series } from './Series';
 import { Genre } from './Genre';
 
 /**
+ * Modelo Season 
+ */
+export class Season {
+  id: number;
+  seasonNumber: number;
+  name: string;
+  episodeCount: number;
+  posterPath: string;
+  airDate: string;
+
+  constructor(data: any) {
+    this.id = data.id ?? 0;
+    this.seasonNumber = data.season_number ?? 0;
+    this.name = data.name ?? '';
+    this.episodeCount = data.episode_count ?? 0;
+    this.posterPath = data.poster_path ?? '';
+    this.airDate = data.air_date ?? '';
+  }
+}
+
+/**
  * Modelo SeriesDetail
  * 
  * Extiende Series con información adicional que solo está disponible
@@ -17,6 +38,7 @@ export class SeriesDetail extends Series {
   inProduction: boolean;
   lastAirDate: string;
   episodeRunTime: number[];
+  seasons: Season[];
 
   constructor(data: any) {
     super(data);
@@ -29,6 +51,9 @@ export class SeriesDetail extends Series {
     this.inProduction = data.in_production ?? false;
     this.lastAirDate = data.last_air_date ?? '';
     this.episodeRunTime = data.episode_run_time ?? [];
+    this.seasons = (data.seasons ?? [])
+      .map((s: any) => new Season(s))
+      .filter((s: Season) => s.seasonNumber > 0);
   }
 
   /** Nombres de géneros separados por coma */

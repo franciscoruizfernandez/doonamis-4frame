@@ -36,4 +36,5 @@ export const ENDPOINTS = {
   TV_REVIEWS: (id: number) => `/tv/${id}/reviews`,
   DISCOVER_TV: '/discover/tv',
   GENRE_TV_LIST: '/genre/tv/list',
+  TV_SEASON: (id: number, season: number) => `/tv/${id}/season/${season}`,
 } as const;

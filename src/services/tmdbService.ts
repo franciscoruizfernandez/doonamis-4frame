@@ -8,6 +8,7 @@ import { Review } from '../models/Review';
 import { DiscoverFilters } from '../models/Discover';
 import type { DiscoverResponse } from '../models/Discover';
 import { Genre } from '../models/Genre';
+import { Episode } from '../models/Episode';
 
 /**
  * Servicio TMDB
@@ -99,7 +100,7 @@ export class TmdbService {
     return data.results.map((item: any) => new Video(item));
   }
 
-    /** Obtiene el reparto (cast) de una serie */
+  /** Obtiene el reparto (cast) de una serie */
   static async getSeriesCast(id: number): Promise<CastMember[]> {
     const data = await this.fetchData(ENDPOINTS.TV_CREDITS(id));
     return (data.cast ?? [])
@@ -107,10 +108,10 @@ export class TmdbService {
       .sort((a: CastMember, b: CastMember) => a.order - b.order);
   }
 
-    /**
-   * Obtiene las plataformas donde se puede ver una serie.
-   * Devuelve los providers de España por defecto, con fallback a US.
-   */
+  /**
+  * Obtiene las plataformas donde se puede ver una serie.
+  * Devuelve los providers de España por defecto, con fallback a US.
+  */
   static async getWatchProviders(id: number): Promise<WatchProvidersGroup | null> {
     const data = await this.fetchData(ENDPOINTS.TV_WATCH_PROVIDERS(id));
     const results = data.results ?? {};
@@ -129,7 +130,7 @@ export class TmdbService {
     };
   }
 
-    /** Series en tendencia hoy */
+  /** Series en tendencia hoy */
   static async getTrendingDay(page: number = 1): Promise<Series[]> {
     const data = await this.fetchData(ENDPOINTS.TRENDING_TV_DAY, { page });
     return data.results.map((item: any) => new Series(item));
@@ -141,24 +142,24 @@ export class TmdbService {
     return data.results.map((item: any) => new Series(item));
   }
 
-    /** Obtiene las reseñas de una serie */
+  /** Obtiene las reseñas de una serie */
   static async getSeriesReviews(id: number): Promise<Review[]> {
     const data = await this.fetchData(ENDPOINTS.TV_REVIEWS(id));
     return (data.results ?? []).map((item: any) => new Review(item));
   }
 
-    /**
-   * Obtiene la lista de todos los géneros de TV disponibles.
-   */
+  /**
+  * Obtiene la lista de todos los géneros de TV disponibles.
+  */
   static async getTvGenres(): Promise<Genre[]> {
     const data = await this.fetchData(ENDPOINTS.GENRE_TV_LIST);
     return (data.genres ?? []).map((g: any) => new Genre(g));
   }
 
   /**
-   * Descubre series con filtros avanzados.
-   * Combina múltiples parámetros opcionales.
-   */
+  * Descubre series con filtros avanzados.
+  * Combina múltiples parámetros opcionales.
+  */
   static async discoverSeries(filters: DiscoverFilters): Promise<DiscoverResponse> {
     const params: Record<string, string | number> = {};
 
@@ -177,6 +178,12 @@ export class TmdbService {
       totalResults: data.total_results ?? 0,
       page: data.page ?? 1,
     };
+  }
+
+  /** Obtiene los episodios de una temporada específica. */
+  static async getSeasonEpisodes(seriesId: number, seasonNumber: number): Promise<Episode[]> {
+    const data = await this.fetchData(ENDPOINTS.TV_SEASON(seriesId, seasonNumber));
+    return (data.episodes ?? []).map((ep: any) => new Episode(ep));
   }
 }
 
