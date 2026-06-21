@@ -1,4 +1,5 @@
 import { Series } from '../models/Series';
+import { SeriesDetail } from '../models/SeriesDetail';
 
 /**
  * Servicio TMDB
@@ -42,9 +43,9 @@ export class TmdbService {
   /**
    * Obtiene el detalle completo de una serie por su ID.
    */
-  static async getSeriesDetail(id: number): Promise<Series> {
+  static async getSeriesDetail(id: number): Promise<SeriesDetail> {
     const data = await this.fetchData(`/tv/${id}`);
-    return new Series(data);
+    return new SeriesDetail(data);
   }
 
   /**

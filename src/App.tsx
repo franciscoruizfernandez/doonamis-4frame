@@ -2,7 +2,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import Home from './pages/Home/Home';
+import SeriesDetail from './pages/SeriesDetail/SeriesDetail';
 
 /**
  * Componente raíz de la aplicación.
@@ -11,13 +13,14 @@ import Home from './pages/Home/Home';
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="app">
         <Header />
 
         <main className="app__main">
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* Próximamente: <Route path="/series/:id" element={<SeriesDetail />} /> */}
+            <Route path="/series/:id" element={<SeriesDetail />} />
           </Routes>
         </main>
 
