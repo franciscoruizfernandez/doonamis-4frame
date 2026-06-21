@@ -1,10 +1,13 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaStar, FaArrowLeft, FaPlay, FaHeart } from 'react-icons/fa';
-import { TmdbService } from '../../services/tmdbService';
+import { FaStar, FaArrowLeft, FaPlay, FaHeart, FaRegHeart } from 'react-icons/fa';
+import { TmdbService, Video } from '../../services/tmdbService';
 import { useFetch } from '../../hooks/useFetch';
+import { useFavorites } from '../../context/FavoritesContext';
 import { SeriesDetail as SeriesDetailModel } from '../../models/SeriesDetail';
 import { Series } from '../../models/Series';
 import SeriesCarousel from '../../components/SeriesCarousel/SeriesCarousel';
+import VideoModal from '../../components/VideoModal/VideoModal';
 import Loading from '../../components/Loading/Loading';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import styles from './SeriesDetail.module.scss';
@@ -12,25 +15,23 @@ import styles from './SeriesDetail.module.scss';
 /**
  * Página SeriesDetail
  * 
- * Muestra el detalle completo de una serie:
- * - Sidebar izquierdo: poster, descripción, rating
- * - Contenido principal: backdrop, info, carruseles de recomendaciones
+ * Muestra el detalle completo de una serie con sidebar, backdrop,
+ * info, géneros y carruseles de recomendaciones.
  */
 const SeriesDetail = () => {
-  // Obtenemos el ID de la URL (ruta /series/:id)
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const seriesId = Number(id);
+  
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const [showTrailer, setShowTrailer] = useState(false);
 
-  // 3 llamadas paralelas: detalle, similares, recomendaciones
-  const { 
-    data: series, 
-    loading: loadingDetail, 
-    error: errorDetail 
-  } = useFetch<SeriesDetailModel>(
-    () => TmdbService.getSeriesDetail(seriesId),
-    [seriesId]
-  );
+  // Llamadas paralelas
+  const { data: series, loading: loadingDetail, error: errorDetail } = 
+    useFetch<SeriesDetailModel>(
+      () => TmdbService.getSeriesDetail(seriesId),
+      [seriesId]
+    );
 
   const { data: similar } = useFetch<Series[]>(
     () => TmdbService.getSimilarSeries(seriesId),
@@ -42,15 +43,22 @@ const SeriesDetail = () => {
     [seriesId]
   );
 
-  // Estados de carga y error
+  const { data: videos } = useFetch<Video[]>(
+    () => TmdbService.getSeriesVideos(seriesId),
+    [seriesId]
+  );
+
+  // Buscamos el primer trailer oficial de YouTube
+  const trailer = videos?.find(v => v.isYoutube && v.isTrailer) ?? videos?.find(v => v.isYoutube);
+
   if (loadingDetail) return <Loading message="Cargando información..." />;
   if (errorDetail) return <ErrorMessage message={errorDetail} />;
   if (!series) return <ErrorMessage message="Serie no encontrada" />;
 
+  const favorite = isFavorite(series.id);
+
   return (
     <div className={styles.detail}>
-      
-      {/* Botón volver */}
       <button 
         className={styles.detail__backBtn} 
         onClick={() => navigate(-1)}
@@ -61,50 +69,42 @@ const SeriesDetail = () => {
 
       <div className={styles.detail__layout}>
         
-        {/* ===== SIDEBAR IZQUIERDO ===== */}
+        {/* SIDEBAR */}
         <aside className={styles.detail__sidebar}>
-          
-          {/* Poster */}
           <div className={styles.detail__posterWrapper}>
             <img 
               src={series.posterUrl} 
               alt={`Póster de ${series.name}`}
               className={styles.detail__poster}
             />
-            <button className={styles.detail__favoriteBtn}>
-              <FaHeart />
-              <span>Favorito</span>
+            <button 
+              className={`${styles.detail__favoriteBtn} ${favorite ? styles['detail__favoriteBtn--active'] : ''}`}
+              onClick={() => toggleFavorite(series)}
+            >
+              {favorite ? <FaHeart /> : <FaRegHeart />}
+              <span>{favorite ? '¡Favorito!' : 'Favorito'}</span>
             </button>
           </div>
 
-          {/* Descripción */}
-          <p className={styles.detail__overview}>
-            {series.overview}
-          </p>
+          <p className={styles.detail__overview}>{series.overview}</p>
 
           <hr className={styles.detail__divider} />
 
-          {/* Rating */}
           <div className={styles.detail__rating}>
             <h3 className={styles.detail__ratingTitle}>IMDB</h3>
             <div className={styles.detail__ratingValue}>
               <FaStar className={styles.detail__ratingStar} />
-              <span className={styles.detail__ratingNumber}>
-                {series.rating}
-              </span>
+              <span className={styles.detail__ratingNumber}>{series.rating}</span>
               <span className={styles.detail__ratingMax}>/10</span>
             </div>
             <p className={styles.detail__ratingCount}>
               {series.voteCount.toLocaleString()} valoraciones
             </p>
           </div>
-
         </aside>
 
-        {/* ===== CONTENIDO PRINCIPAL ===== */}
+        {/* MAIN */}
         <main className={styles.detail__main}>
-          
-          {/* Cabecera con título y rating */}
           <div className={styles.detail__header}>
             <h1 className={styles.detail__title}>{series.name}</h1>
             <div className={styles.detail__headerRating}>
@@ -113,7 +113,7 @@ const SeriesDetail = () => {
             </div>
           </div>
 
-          {/* Backdrop (imagen grande) */}
+          {/* Backdrop con botón de play */}
           <div className={styles.detail__backdrop}>
             {series.backdropUrl ? (
               <img 
@@ -126,12 +126,19 @@ const SeriesDetail = () => {
                 <FaPlay />
               </div>
             )}
-            <button className={styles.detail__playBtn} aria-label="Reproducir">
-              <FaPlay />
-            </button>
+            
+            {trailer && (
+              <button 
+                className={styles.detail__playBtn} 
+                onClick={() => setShowTrailer(true)}
+                aria-label="Reproducir trailer"
+              >
+                <FaPlay />
+              </button>
+            )}
           </div>
 
-          {/* Información clave */}
+          {/* Info */}
           <div className={styles.detail__info}>
             <div className={styles.detail__infoItem}>
               <span className={styles.detail__infoLabel}>Año</span>
@@ -139,15 +146,11 @@ const SeriesDetail = () => {
             </div>
             <div className={styles.detail__infoItem}>
               <span className={styles.detail__infoLabel}>Temporadas</span>
-              <span className={styles.detail__infoValue}>
-                {series.numberOfSeasons}
-              </span>
+              <span className={styles.detail__infoValue}>{series.numberOfSeasons}</span>
             </div>
             <div className={styles.detail__infoItem}>
               <span className={styles.detail__infoLabel}>Episodios</span>
-              <span className={styles.detail__infoValue}>
-                {series.numberOfEpisodes}
-              </span>
+              <span className={styles.detail__infoValue}>{series.numberOfEpisodes}</span>
             </div>
             <div className={styles.detail__infoItem}>
               <span className={styles.detail__infoLabel}>Duración</span>
@@ -155,13 +158,10 @@ const SeriesDetail = () => {
             </div>
             <div className={styles.detail__infoItem}>
               <span className={styles.detail__infoLabel}>Estado</span>
-              <span className={styles.detail__infoValue}>
-                {series.statusLabel}
-              </span>
+              <span className={styles.detail__infoValue}>{series.statusLabel}</span>
             </div>
           </div>
 
-          {/* Géneros */}
           {series.genres.length > 0 && (
             <div className={styles.detail__genres}>
               {series.genres.map(genre => (
@@ -172,26 +172,27 @@ const SeriesDetail = () => {
             </div>
           )}
 
-          {/* Tagline */}
           {series.tagline && (
             <p className={styles.detail__tagline}>"{series.tagline}"</p>
           )}
 
-          {/* Carruseles */}
           {similar && similar.length > 0 && (
             <SeriesCarousel title="Más como esta" series={similar} />
           )}
 
           {recommendations && recommendations.length > 0 && (
-            <SeriesCarousel 
-              title="Recomendado para ti" 
-              series={recommendations} 
-            />
+            <SeriesCarousel title="Recomendado para ti" series={recommendations} />
           )}
-
         </main>
-
       </div>
+
+      {/* Modal del trailer */}
+      {showTrailer && trailer && (
+        <VideoModal 
+          video={trailer} 
+          onClose={() => setShowTrailer(false)} 
+        />
+      )}
     </div>
   );
 };
