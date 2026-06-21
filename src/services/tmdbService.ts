@@ -5,6 +5,9 @@ import { CastMember } from '../models/CastMember';
 import type { WatchProvidersGroup } from '../models/WatchProvider';
 import { WatchProvider } from '../models/WatchProvider';
 import { Review } from '../models/Review';
+import { DiscoverFilters } from '../models/Discover';
+import type { DiscoverResponse } from '../models/Discover';
+import { Genre } from '../models/Genre';
 
 /**
  * Servicio TMDB
@@ -142,6 +145,38 @@ export class TmdbService {
   static async getSeriesReviews(id: number): Promise<Review[]> {
     const data = await this.fetchData(ENDPOINTS.TV_REVIEWS(id));
     return (data.results ?? []).map((item: any) => new Review(item));
+  }
+
+    /**
+   * Obtiene la lista de todos los géneros de TV disponibles.
+   */
+  static async getTvGenres(): Promise<Genre[]> {
+    const data = await this.fetchData(ENDPOINTS.GENRE_TV_LIST);
+    return (data.genres ?? []).map((g: any) => new Genre(g));
+  }
+
+  /**
+   * Descubre series con filtros avanzados.
+   * Combina múltiples parámetros opcionales.
+   */
+  static async discoverSeries(filters: DiscoverFilters): Promise<DiscoverResponse> {
+    const params: Record<string, string | number> = {};
+
+    if (filters.page) params.page = filters.page;
+    if (filters.sortBy) params.sort_by = filters.sortBy;
+    if (filters.withGenres) params.with_genres = filters.withGenres;
+    if (filters.year) params.first_air_date_year = filters.year;
+    if (filters.voteAverageGte) params['vote_average.gte'] = filters.voteAverageGte;
+    if (filters.voteAverageLte) params['vote_average.lte'] = filters.voteAverageLte;
+    if (filters.voteCountGte) params['vote_count.gte'] = filters.voteCountGte;
+
+    const data = await this.fetchData(ENDPOINTS.DISCOVER_TV, params);
+    return {
+      series: data.results.map((item: any) => new Series(item)),
+      totalPages: data.total_pages ?? 1,
+      totalResults: data.total_results ?? 0,
+      page: data.page ?? 1,
+    };
   }
 }
 

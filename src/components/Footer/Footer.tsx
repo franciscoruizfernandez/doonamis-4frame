@@ -14,6 +14,7 @@ import styles from './Footer.module.scss';
 // Configuración de enlaces para evitar repetición y facilitar mantenimiento
 const NAV_LINKS = [
   { to: '/', label: 'For You' },
+  { to: '/explore', label: 'Explorar' },
   { to: '/favorites', label: 'Favorites' },
 ];
 

@@ -9,6 +9,7 @@ export const ROUTES = {
   SERIES_DETAIL: '/series/:id',
   SEARCH: '/search',
   FAVORITES: '/favorites',
+  EXPLORE: '/explore',
   NOT_FOUND: '*',
 } as const;
 

@@ -8,6 +8,7 @@ import SeriesDetail from './pages/SeriesDetail/SeriesDetail';
 import Search from './pages/Search/Search';
 import Favorites from './pages/Favorites/Favorites';
 import NotFound from './pages/NotFound/NotFound';
+import Explore from './pages/Explore/Explore';
 import { ROUTES } from './constants/routes';
 
 /**
@@ -30,6 +31,7 @@ function App() {
               <Route path={ROUTES.HOME} element={<Home />} />
               <Route path={ROUTES.SERIES_DETAIL} element={<SeriesDetail />} />
               <Route path={ROUTES.SEARCH} element={<Search />} />
+              <Route path={ROUTES.EXPLORE} element={<Explore />} />
               <Route path={ROUTES.FAVORITES} element={<Favorites />} />
               <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
             </Routes>

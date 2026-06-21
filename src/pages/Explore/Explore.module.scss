@@ -1,0 +1,81 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.explore {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+  min-height: 70vh;
+
+  @include respond-to(md) {
+    padding: $spacing-md;
+  }
+
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__title {
+    font-size: $font-size-xxl;
+    font-weight: 900;
+    margin-bottom: $spacing-sm;
+    background: linear-gradient(90deg, $color-text-primary, $color-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__subtitle {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+  }
+
+  &__count {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: $spacing-lg;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: $spacing-md;
+    }
+  }
+
+  &__empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-xxl;
+    text-align: center;
+    color: $color-text-secondary;
+  }
+
+  &__loadMore {
+    @include flex-center;
+    margin-top: $spacing-xxl;
+  }
+
+  &__loadMoreBtn {
+    padding: $spacing-md $spacing-xxl;
+    background-color: $color-accent;
+    color: $color-text-primary;
+    border-radius: 30px;
+    font-size: $font-size-base;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all $transition-fast;
+
+    &:hover {
+      background-color: $color-accent-hover;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(230, 52, 98, 0.4);
+    }
+  }
+}

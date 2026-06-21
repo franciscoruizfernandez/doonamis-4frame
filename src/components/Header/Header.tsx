@@ -124,6 +124,15 @@ const Header = () => {
             <FaHeart style={{ marginRight: '6px', fontSize: '0.85em' }} />
             Favoritos
           </NavLink>
+
+          <NavLink 
+          to={ROUTES.EXPLORE} 
+          className={({ isActive }) => 
+            `${styles.header__navLink} ${isActive ? styles['header__navLink--active'] : ''}`
+          }
+        >
+          Explorar
+        </NavLink>
         </nav>
 
         {/* Buscador con dropdown */}
