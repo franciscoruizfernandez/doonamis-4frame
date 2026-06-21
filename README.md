@@ -2,6 +2,8 @@
 
 Aplicación web para explorar series de TV utilizando la API de [The Movie Database (TMDB)](https://developers.themoviedb.org/3).
 
+https://doonamis-4frame.vercel.app/
+
 > Prueba técnica para puesto de Frontend Developer React.
 
 ## Sobre el proyecto - Enfoque y planteamiento
