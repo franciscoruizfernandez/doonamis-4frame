@@ -109,4 +109,36 @@
     font-size: $font-size-xs;
     color: $color-text-secondary;
   }
+
+  &__favoriteBtn {
+    position: absolute;
+    top: $spacing-sm;
+    left: $spacing-sm;
+    @include flex-center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(5px);
+    color: $color-text-primary;
+    font-size: $font-size-sm;
+    transition: 
+      background-color $transition-fast,
+      transform $transition-fast,
+      color $transition-fast;
+    z-index: 2;
+
+    &:hover {
+      background-color: $color-accent;
+      transform: scale(1.15);
+    }
+
+    &--active {
+      color: $color-accent;
+      
+      &:hover {
+        color: $color-text-primary;
+      }
+    }
+  }
 }

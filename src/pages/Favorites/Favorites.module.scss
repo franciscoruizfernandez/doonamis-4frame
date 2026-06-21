@@ -1,0 +1,113 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.favorites {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+  min-height: 70vh;
+
+  @include respond-to(md) {
+    padding: $spacing-md;
+  }
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $color-border;
+    gap: $spacing-md;
+
+    @include respond-to(sm) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-size-xxl;
+    font-weight: 700;
+
+    @include respond-to(md) {
+      font-size: $font-size-xl;
+    }
+  }
+
+  &__titleIcon {
+    color: $color-accent;
+  }
+
+  &__count {
+    margin-top: $spacing-xs;
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+  }
+
+  &__clearBtn {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+    background-color: transparent;
+    border: 1px solid $color-accent;
+    border-radius: 25px;
+    color: $color-accent;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    transition: 
+      background-color $transition-fast,
+      color $transition-fast;
+
+    &:hover {
+      background-color: $color-accent;
+      color: $color-text-primary;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: $spacing-lg;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: $spacing-md;
+    }
+  }
+
+  &__empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-xxl;
+    text-align: center;
+  }
+
+  &__emptyIcon {
+    font-size: 5rem;
+    color: $color-accent;
+    opacity: 0.5;
+  }
+
+  &__exploreBtn {
+    margin-top: $spacing-md;
+    padding: $spacing-md $spacing-xl;
+    background-color: $color-accent;
+    color: $color-text-primary;
+    border-radius: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 
+      background-color $transition-fast,
+      transform $transition-fast;
+
+    &:hover {
+      background-color: $color-accent-hover;
+      transform: translateY(-3px);
+    }
+  }
+}
