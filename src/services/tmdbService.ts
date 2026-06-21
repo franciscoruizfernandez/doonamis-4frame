@@ -4,6 +4,7 @@ import { API_CONFIG, ENDPOINTS } from '../constants/api';
 import { CastMember } from '../models/CastMember';
 import type { WatchProvidersGroup } from '../models/WatchProvider';
 import { WatchProvider } from '../models/WatchProvider';
+import { Review } from '../models/Review';
 
 /**
  * Servicio TMDB
@@ -135,6 +136,12 @@ export class TmdbService {
   static async getTrendingWeek(page: number = 1): Promise<Series[]> {
     const data = await this.fetchData(ENDPOINTS.TRENDING_TV_WEEK, { page });
     return data.results.map((item: any) => new Series(item));
+  }
+
+    /** Obtiene las reseñas de una serie */
+  static async getSeriesReviews(id: number): Promise<Review[]> {
+    const data = await this.fetchData(ENDPOINTS.TV_REVIEWS(id));
+    return (data.results ?? []).map((item: any) => new Review(item));
   }
 }
 

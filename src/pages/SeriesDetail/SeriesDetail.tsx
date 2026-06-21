@@ -15,6 +15,9 @@ import { CastMember } from '../../models/CastMember';
 import CastCarousel from '../../components/CastCarousel/CastCarousel';
 import type { WatchProvidersGroup } from '../../models/WatchProvider';
 import WatchProviders from '../../components/WatchProviders/WatchProviders';
+import { Review } from '../../models/Review';
+import ReviewsSection from '../../components/ReviewsSection/ReviewsSection';
+
 
 /**
  * Página SeriesDetail
@@ -59,6 +62,11 @@ const SeriesDetail = () => {
 
   const { data: watchProviders } = useFetch<WatchProvidersGroup | null>(
     () => TmdbService.getWatchProviders(seriesId),
+    [seriesId]
+  );
+
+  const { data: reviews } = useFetch<Review[]>(
+    () => TmdbService.getSeriesReviews(seriesId),
     [seriesId]
   );
 
@@ -196,6 +204,10 @@ const SeriesDetail = () => {
 
           {cast && cast.length > 0 && (
             <CastCarousel title="Reparto" cast={cast} limit={15} />
+          )}
+
+          {reviews && (
+            <ReviewsSection reviews={reviews} />
           )}
 
           {similar && similar.length > 0 && (

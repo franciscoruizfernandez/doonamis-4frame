@@ -1,0 +1,58 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.reviews {
+  margin: $spacing-xxl 0;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-size-xl;
+    font-weight: 700;
+    margin-bottom: $spacing-lg;
+    color: $color-text-primary;
+
+    svg {
+      color: $color-accent;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__empty {
+    padding: $spacing-xl;
+    text-align: center;
+    color: $color-text-secondary;
+    font-style: italic;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+  }
+
+  &__loadMore {
+    @include flex-center;
+    margin-top: $spacing-lg;
+  }
+
+  &__loadMoreBtn {
+    padding: $spacing-sm $spacing-xl;
+    background-color: transparent;
+    border: 1px solid $color-accent;
+    color: $color-accent;
+    border-radius: 25px;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    transition: 
+      background-color $transition-fast,
+      color $transition-fast;
+
+    &:hover {
+      background-color: $color-accent;
+      color: $color-text-primary;
+    }
+  }
+}

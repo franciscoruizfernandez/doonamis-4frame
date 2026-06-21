@@ -1,0 +1,75 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.review {
+  padding: $spacing-lg;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border-left: 3px solid $color-accent;
+  margin-bottom: $spacing-md;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+    flex-wrap: wrap;
+  }
+
+  &__avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid $color-border;
+  }
+
+  &__authorInfo {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__author {
+    font-size: $font-size-base;
+    font-weight: 700;
+    color: $color-text-primary;
+  }
+
+  &__date {
+    font-size: $font-size-xs;
+    color: $color-text-secondary;
+    margin-top: 2px;
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: 4px 10px;
+    background-color: rgba(245, 197, 24, 0.2);
+    border-radius: 12px;
+    color: #f5c518;
+    font-size: $font-size-sm;
+    font-weight: 700;
+  }
+
+  &__content {
+    font-size: $font-size-sm;
+    line-height: 1.7;
+    color: $color-text-secondary;
+    white-space: pre-line;
+  }
+
+  &__toggleBtn {
+    margin-top: $spacing-sm;
+    color: $color-accent;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-accent-hover;
+      text-decoration: underline;
+    }
+  }
+}
