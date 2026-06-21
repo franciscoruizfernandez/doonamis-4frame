@@ -64,3 +64,112 @@ img {
     background: $color-accent;
   }
 }
+
+// ===== ANIMACIONES GLOBALES =====
+
+/**
+ * Animación de entrada fade-in suave.
+ * Usar añadiendo la clase .fade-in al elemento.
+ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/**
+ * Animación de entrada para páginas completas.
+ * Se aplica a todo el contenido principal.
+ */
+.app__main {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/**
+ * Animación escalonada para grids de cards.
+ * Cada card aparece con un pequeño delay incremental.
+ */
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Aplicamos animación escalonada a cualquier grid con cards
+[class*="__grid"] > * {
+  animation: cardFadeIn 0.4s ease-out backwards;
+}
+
+// Delays escalonados (hasta 12 cards visibles)
+@for $i from 1 through 12 {
+  [class*="__grid"] > *:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.05}s;
+  }
+}
+
+/**
+ * Smooth scroll para toda la página.
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+/**
+ * Transición global para todos los elementos interactivos.
+ * (Cuidado: no afecta a propiedades que ya tienen transición específica)
+ */
+a, button {
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+/**
+ * Focus visible accesible.
+ */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-accent, #e63462);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/**
+ * Mejor selección de texto (color de marca).
+ */
+::selection {
+  background-color: var(--color-accent, #e63462);
+  color: #ffffff;
+}
