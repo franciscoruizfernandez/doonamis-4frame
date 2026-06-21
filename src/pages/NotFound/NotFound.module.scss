@@ -1,0 +1,71 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.notFound {
+  @include flex-center;
+  min-height: 70vh;
+  padding: $spacing-xl;
+
+  &__content {
+    @include flex-center;
+    flex-direction: column;
+    text-align: center;
+    gap: $spacing-md;
+    max-width: 500px;
+  }
+
+  &__icon {
+    font-size: 5rem;
+    color: $color-accent;
+    margin-bottom: $spacing-md;
+  }
+
+  &__code {
+    font-size: 6rem;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(
+      135deg, 
+      $color-text-primary 0%, 
+      $color-accent 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__title {
+    font-size: $font-size-xxl;
+    font-weight: 700;
+  }
+
+  &__message {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    line-height: 1.6;
+  }
+
+  &__btn {
+    margin-top: $spacing-md;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-md $spacing-xl;
+    background-color: $color-accent;
+    color: $color-text-primary;
+    border-radius: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 
+      background-color $transition-fast,
+      transform $transition-fast,
+      box-shadow $transition-fast;
+
+    &:hover {
+      background-color: $color-accent-hover;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(230, 52, 98, 0.4);
+    }
+  }
+}
