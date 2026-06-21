@@ -1,0 +1,112 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-bg-secondary;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: 
+    transform $transition-base, 
+    box-shadow $transition-base;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+
+    .card__overlay {
+      opacity: 1;
+    }
+
+    .card__image {
+      transform: scale(1.05);
+    }
+  }
+
+  // ===== IMAGEN =====
+  &__imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3; // Proporción típica de poster
+    overflow: hidden;
+    background-color: $color-bg-dark;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform $transition-base;
+  }
+
+  // ===== RATING BADGE =====
+  &__rating {
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(5px);
+    color: $color-text-primary;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: $font-size-xs;
+    font-weight: 700;
+  }
+
+  &__ratingIcon {
+    color: #f5c518; // Amarillo IMDB
+    font-size: $font-size-xs;
+  }
+
+  // ===== OVERLAY (al hover) =====
+  &__overlay {
+    position: absolute;
+    inset: 0; // top:0, right:0, bottom:0, left:0
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.7) 60%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: $spacing-md;
+    opacity: 0;
+    transition: opacity $transition-base;
+  }
+
+  &__overview {
+    font-size: $font-size-xs;
+    line-height: 1.5;
+    color: $color-text-primary;
+  }
+
+  // ===== INFORMACIÓN =====
+  &__info {
+    padding: $spacing-sm $spacing-md;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-text-primary;
+    
+    // Truncar a 1 línea con elipsis
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__year {
+    font-size: $font-size-xs;
+    color: $color-text-secondary;
+  }
+}

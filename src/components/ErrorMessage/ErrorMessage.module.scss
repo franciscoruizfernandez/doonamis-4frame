@@ -1,0 +1,42 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.error {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-xxl;
+  min-height: 400px;
+  text-align: center;
+
+  &__icon {
+    font-size: 3rem;
+    color: $color-accent;
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    color: $color-text-primary;
+  }
+
+  &__message {
+    color: $color-text-secondary;
+    font-size: $font-size-base;
+    max-width: 400px;
+  }
+
+  &__retryBtn {
+    margin-top: $spacing-md;
+    padding: $spacing-sm $spacing-lg;
+    background-color: $color-accent;
+    color: $color-text-primary;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: background-color $transition-fast, transform $transition-fast;
+
+    &:hover {
+      background-color: $color-accent-hover;
+      transform: scale(1.05);
+    }
+  }
+}
