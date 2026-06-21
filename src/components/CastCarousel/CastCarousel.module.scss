@@ -1,0 +1,74 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.carousel {
+  margin: $spacing-xxl 0;
+  width: 100%;
+  min-width: 0;
+
+  &__title {
+    text-align: center;
+    font-size: $font-size-xl;
+    font-weight: 700;
+    margin-bottom: $spacing-lg;
+    color: $color-text-primary;
+  }
+
+  &__wrapper {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+  }
+
+  &__track {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: $spacing-md;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: $spacing-sm $spacing-md;
+    width: 100%;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__item {
+    flex: 0 0 auto;
+    width: 150px;
+  }
+
+  &__navBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    @include flex-center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    transition: background-color $transition-fast, transform $transition-fast;
+
+    &:hover {
+      background-color: $color-accent;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    &--left { left: 5px; }
+    &--right { right: 5px; }
+
+    @include respond-to(md) {
+      width: 36px;
+      height: 36px;
+    }
+  }
+}

@@ -11,6 +11,8 @@ import VideoModal from '../../components/VideoModal/VideoModal';
 import Loading from '../../components/Loading/Loading';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import styles from './SeriesDetail.module.scss';
+import { CastMember } from '../../models/CastMember';
+import CastCarousel from '../../components/CastCarousel/CastCarousel';
 
 /**
  * Página SeriesDetail
@@ -45,6 +47,11 @@ const SeriesDetail = () => {
 
   const { data: videos } = useFetch<Video[]>(
     () => TmdbService.getSeriesVideos(seriesId),
+    [seriesId]
+  );
+
+  const { data: cast } = useFetch<CastMember[]>(
+    () => TmdbService.getSeriesCast(seriesId),
     [seriesId]
   );
 
@@ -174,6 +181,10 @@ const SeriesDetail = () => {
 
           {series.tagline && (
             <p className={styles.detail__tagline}>"{series.tagline}"</p>
+          )}
+
+          {cast && cast.length > 0 && (
+            <CastCarousel title="Reparto" cast={cast} limit={15} />
           )}
 
           {similar && similar.length > 0 && (

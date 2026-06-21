@@ -1,6 +1,7 @@
 import { Series } from '../models/Series';
 import { SeriesDetail } from '../models/SeriesDetail';
 import { API_CONFIG, ENDPOINTS } from '../constants/api';
+import { CastMember } from '../models/CastMember';
 
 /**
  * Servicio TMDB
@@ -90,6 +91,14 @@ export class TmdbService {
   static async getSeriesVideos(id: number): Promise<Video[]> {
     const data = await this.fetchData(ENDPOINTS.TV_VIDEOS(id));
     return data.results.map((item: any) => new Video(item));
+  }
+
+    /** Obtiene el reparto (cast) de una serie */
+  static async getSeriesCast(id: number): Promise<CastMember[]> {
+    const data = await this.fetchData(ENDPOINTS.TV_CREDITS(id));
+    return (data.cast ?? [])
+      .map((item: any) => new CastMember(item))
+      .sort((a: CastMember, b: CastMember) => a.order - b.order);
   }
 }
 
