@@ -35,6 +35,7 @@
     font-size: $font-size-xl;
     color: $color-text-primary;
     transition: opacity $transition-fast;
+    flex-shrink: 0;
 
     &:hover {
       opacity: 0.85;
@@ -51,19 +52,25 @@
   }
 
   // ===== NAVEGACIÓN =====
-  &__nav,
-  &__navSecondary {
+  &__nav {
     display: flex;
     align-items: center;
     gap: $spacing-lg;
+    flex-shrink: 0;
 
     @include respond-to(md) {
+      gap: $spacing-md;
+    }
+
+    @include respond-to(sm) {
       display: none;
     }
   }
 
   &__navLink {
     position: relative;
+    display: flex;
+    align-items: center;
     font-size: $font-size-sm;
     font-weight: 600;
     text-transform: uppercase;
@@ -76,7 +83,6 @@
       color: $color-text-primary;
     }
 
-    // Subrayado animado al hover
     &::after {
       content: '';
       position: absolute;
@@ -92,7 +98,6 @@
       width: 100%;
     }
 
-    // Link activo
     &--active {
       color: $color-text-primary;
 
@@ -133,6 +138,7 @@
     background: transparent;
     color: $color-bg-dark;
     font-size: $font-size-sm;
+    width: 100%;
 
     &::placeholder {
       color: rgba(0, 0, 0, 0.5);
@@ -144,6 +150,7 @@
     display: flex;
     align-items: center;
     gap: $spacing-md;
+    flex-shrink: 0;
   }
 
   &__notificationBtn {

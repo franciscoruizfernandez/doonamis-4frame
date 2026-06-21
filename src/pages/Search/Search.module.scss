@@ -1,0 +1,64 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.search {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+  min-height: 70vh;
+
+  @include respond-to(md) {
+    padding: $spacing-md;
+  }
+
+  &__header {
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__title {
+    font-size: $font-size-xxl;
+    font-weight: 700;
+    margin-bottom: $spacing-sm;
+
+    @include respond-to(md) {
+      font-size: $font-size-xl;
+    }
+  }
+
+  &__query {
+    color: $color-accent;
+  }
+
+  &__count {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: $spacing-lg;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: $spacing-md;
+    }
+  }
+
+  &__empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-xxl;
+    text-align: center;
+    color: $color-text-secondary;
+  }
+
+  &__emptyIcon {
+    font-size: 4rem;
+    color: $color-accent;
+    margin-bottom: $spacing-md;
+  }
+}

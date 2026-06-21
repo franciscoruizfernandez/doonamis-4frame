@@ -14,11 +14,7 @@ import styles from './Footer.module.scss';
 // Configuración de enlaces para evitar repetición y facilitar mantenimiento
 const NAV_LINKS = [
   { to: '/', label: 'For You' },
-  { to: '/movies', label: 'Movies' },
-  { to: '/tv-shows', label: 'TV Shows' },
   { to: '/favorites', label: 'Favorites' },
-  { to: '/my-list', label: 'My List' },
-  { to: '/settings', label: 'User Settings' },
 ];
 
 const SOCIAL_LINKS = [

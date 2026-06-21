@@ -1,24 +1,38 @@
-import { NavLink, Link } from 'react-router-dom';
-import { FaSearch, FaBell, FaUserCircle } from 'react-icons/fa';
+import { useState } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { FaSearch, FaBell, FaUserCircle, FaHeart } from 'react-icons/fa';
+import { ROUTES, buildRoute } from '../../constants/routes';
 import styles from './Header.module.scss';
 
 /**
  * Componente Header
  * 
- * Barra de navegación superior que contiene:
- * - Logo de la aplicación (enlace al home)
- * - Menú de navegación principal (For You, Movies, TV Shows)
- * - Barra de búsqueda
- * - Menú secundario (Favorites, My List)
- * - Icono de notificaciones y avatar de usuario
+ * Barra de navegación superior con logo, navegación, buscador 
+ * y acciones de usuario.
  */
 const Header = () => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  /**
+   * Maneja el submit del formulario de búsqueda.
+   * Navega a /search?q=... con el término escrito.
+   */
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = searchQuery.trim();
+    if (trimmed) {
+      navigate(buildRoute.search(trimmed));
+      setSearchQuery('');
+    }
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.header__container}>
         
         {/* Logo */}
-        <Link to="/" className={styles.header__logo}>
+        <Link to={ROUTES.HOME} className={styles.header__logo}>
           <span className={styles.header__logoNumber}>4</span>
           <span className={styles.header__logoText}>FRAME</span>
         </Link>
@@ -26,41 +40,41 @@ const Header = () => {
         {/* Menú principal */}
         <nav className={styles.header__nav}>
           <NavLink 
-            to="/" 
+            to={ROUTES.HOME} 
+            className={({ isActive }) => 
+              `${styles.header__navLink} ${isActive ? styles['header__navLink--active'] : ''}`
+            }
+            end
+          >
+            TV Shows
+          </NavLink>
+          <NavLink 
+            to={ROUTES.FAVORITES} 
             className={({ isActive }) => 
               `${styles.header__navLink} ${isActive ? styles['header__navLink--active'] : ''}`
             }
           >
-            For You
-          </NavLink>
-          <NavLink to="/movies" className={styles.header__navLink}>
-            Movies
-          </NavLink>
-          <NavLink to="/tv-shows" className={styles.header__navLink}>
-            TV Shows
+            <FaHeart style={{ marginRight: '6px', fontSize: '0.85em' }} />
+            Favoritos
           </NavLink>
         </nav>
 
-        {/* Barra de búsqueda */}
-        <div className={styles.header__search}>
+        {/* Buscador */}
+        <form 
+          className={styles.header__search} 
+          onSubmit={handleSearchSubmit}
+          role="search"
+        >
           <FaSearch className={styles.header__searchIcon} />
           <input 
             type="text" 
-            placeholder="Search"
+            placeholder="Buscar series..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className={styles.header__searchInput}
-            aria-label="Buscar series y películas"
+            aria-label="Buscar series"
           />
-        </div>
-
-        {/* Menú secundario */}
-        <nav className={styles.header__navSecondary}>
-          <NavLink to="/favorites" className={styles.header__navLink}>
-            Favorites
-          </NavLink>
-          <NavLink to="/my-list" className={styles.header__navLink}>
-            My List
-          </NavLink>
-        </nav>
+        </form>
 
         {/* Acciones de usuario */}
         <div className={styles.header__actions}>
